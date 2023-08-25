@@ -1,4 +1,10 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Render } from '@nestjs/common';
 
 @Controller('oauth')
-export class OauthController {}
+export class OauthController {
+  @Get('authorize')
+  @Render('oauth/authorize')
+  authorize() {
+    return {};
+  }
+}
