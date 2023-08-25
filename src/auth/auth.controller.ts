@@ -45,7 +45,7 @@ export class AuthController {
   info(@Session() session: Record<string, any>, @Res() res: Response) {
     const user = session.user;
     if (!user) {
-      res.status(302).redirect('/auth/login');
+      return res.status(302).redirect('/auth/login');
     }
     return { user };
   }
