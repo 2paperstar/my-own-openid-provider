@@ -32,6 +32,9 @@ export class OauthController {
         .status(302)
         .redirect(`/auth/login?redirect=${encodeURIComponent(req.url)}`);
     }
-    return res.json({ authorizeDto });
+    if (!client.redirectUris.includes(authorizeDto.redirect_uri)) {
+      throw new BadRequestException('unauthorized_client');
+    }
+    return res.status(302).redirect(`${authorizeDto.redirect_uri}?code=123456`);
   }
 }
