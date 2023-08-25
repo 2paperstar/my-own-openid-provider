@@ -65,4 +65,18 @@ export class OauthController {
   token(@Body() tokenDto: TokenDto) {
     return this.oauthService.generateToken(tokenDto);
   }
+
+  @Get('certs')
+  cert() {
+    return this.oauthService.certs();
+  }
+}
+
+@Controller('.well-known/openid-configuration')
+export class OpenIDDiscoveryController {
+  constructor(private readonly oauthService: OauthService) {}
+  @Get()
+  discovery() {
+    return this.oauthService.discovery();
+  }
 }

@@ -9,6 +9,10 @@ export class ClientService {
       `http://localhost:3000/oauth/authorize?` +
         `redirect_uri=${client.redirectUris[0]}&scope=openid&response_type=code&client_id=${client.id}`,
     );
+    console.log(
+      `http://localhost:3000/oauth/token?` +
+        `grant_type=authorization_code&code=CODE&redirect_uri=${client.redirectUris[0]}&client_id=${client.id}&client_secret=${client.secret}`,
+    );
   }
 
   getClientById(id: string) {
