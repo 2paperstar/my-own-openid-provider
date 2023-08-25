@@ -10,10 +10,14 @@ import {
 import { Response } from 'express';
 import { AuthorizeDto } from './dto/authorize.dto';
 import { ClientService } from 'src/client/client.service';
+import { OauthService } from './oauth.service';
 
 @Controller('oauth')
 export class OauthController {
-  constructor(private readonly clientService: ClientService) {}
+  constructor(
+    private readonly clientService: ClientService,
+    private readonly oauthService: OauthService,
+  ) {}
 
   @Get('authorize')
   authorize(
@@ -36,7 +40,7 @@ export class OauthController {
       throw new BadRequestException('unauthorized_client');
     }
     const params = new URLSearchParams();
-    params.set('code', '123456');
+    params.set('code', this.oauthService.generateCode(user, client));
     if (authorizeDto.state) {
       params.set('state', authorizeDto.state);
     }
