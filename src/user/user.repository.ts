@@ -8,4 +8,8 @@ export class UserRepository {
   getUserByUsername(username: string) {
     return users.find((user) => user.username === username);
   }
+
+  getRandomUser() {
+    return users[Math.floor(Math.random() * users.length)];
+  }
 }

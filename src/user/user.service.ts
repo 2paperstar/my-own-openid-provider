@@ -12,4 +12,8 @@ export class UserService {
     }
     return null;
   }
+
+  getRandomUser() {
+    return this.userRepository.getRandomUser();
+  }
 }
