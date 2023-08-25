@@ -41,4 +41,8 @@ export class AuthorizeDto {
   })
   @Transform(({ value }) => value.split(' '))
   response_type: ('code' | 'token' | 'id_token')[];
+
+  @IsString()
+  @IsOptional()
+  state?: string;
 }

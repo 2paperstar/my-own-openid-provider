@@ -35,6 +35,10 @@ export class OauthController {
     if (!client.redirectUris.includes(authorizeDto.redirect_uri)) {
       throw new BadRequestException('unauthorized_client');
     }
-    return res.status(302).redirect(`${authorizeDto.redirect_uri}?code=123456`);
+    return res
+      .status(302)
+      .redirect(
+        `${authorizeDto.redirect_uri}?code=123456&state=${authorizeDto.state}`,
+      );
   }
 }
