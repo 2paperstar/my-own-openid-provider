@@ -3,7 +3,9 @@ import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository) {
+    console.log(userRepository.getRandomUser());
+  }
 
   getUserByUsernameAndPassword(username: string, password: string) {
     const user = this.userRepository.getUserByUsername(username);
