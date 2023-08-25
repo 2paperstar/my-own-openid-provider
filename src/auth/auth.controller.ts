@@ -6,9 +6,9 @@ import {
   Post,
   Render,
   Res,
+  Session,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { UserEntity } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { LoginDto } from './dto/login.dto';
 
@@ -18,26 +18,35 @@ export class AuthController {
 
   @Get('login')
   @Render('auth/login')
-  loginPage() {
+  loginPage(@Session() session: Record<string, any>, @Res() res: Response) {
+    if (session.user) {
+      return res.status(302).redirect('/auth/info');
+    }
     return { sample: this.userService.getRandomUser() };
   }
 
   @Post('login')
-  login(@Body() loginDto: LoginDto) {
+  login(
+    @Session() session: Record<string, any>,
+    @Body() loginDto: LoginDto,
+    @Res() res: Response,
+  ) {
     const user = this.userService.getUserByUsernameAndPassword(
       loginDto.username,
       loginDto.password,
     );
     if (!user) throw new NotFoundException();
-    return user;
+    session.user = user;
+    return res.status(302).redirect('/auth/info');
   }
 
   @Get('info')
   @Render('auth/info')
-  info(@Res() res: Response) {
-    if (true) {
+  info(@Session() session: Record<string, any>, @Res() res: Response) {
+    const user = session.user;
+    if (!user) {
       res.status(302).redirect('/auth/login');
     }
-    return { user: UserEntity.randomWithId(0) };
+    return { user };
   }
 }
