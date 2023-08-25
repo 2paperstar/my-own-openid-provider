@@ -9,7 +9,7 @@ import {
   Res,
   Session,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { AuthorizeDto } from './dto/authorize.dto';
 import { ClientService } from 'src/client/client.service';
 import { OauthService } from './oauth.service';
@@ -69,6 +69,16 @@ export class OauthController {
   @Get('certs')
   cert() {
     return this.oauthService.certs();
+  }
+
+  @Get('userinfo')
+  userinfo(@Req() req: Request) {
+    const authorization = req.headers.authorization;
+    if (!authorization) {
+      throw new BadRequestException('invalid_request');
+    }
+    const token = authorization.replace(/^Bearer /, '');
+    return this.oauthService.userInfo(token);
   }
 }
 

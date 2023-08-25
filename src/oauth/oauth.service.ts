@@ -145,6 +145,8 @@ export class OauthService {
       {
         nonce: data.nonce,
         name: `${data.user.firstName} ${data.user.lastName}`,
+        given_name: data.user.firstName,
+        family_name: data.user.lastName,
         email: data.user.email,
       },
       this.jwtPrivateKey,
@@ -164,6 +166,19 @@ export class OauthService {
       expires_in: expiresIn,
       token_type: 'Bearer',
       scope: data.scopes?.join(' ') || '',
+    };
+  }
+
+  async userInfo(accessToken: string) {
+    const data = await this.cacheManager.get<CacheData>(accessToken);
+    if (!data) {
+      throw new BadRequestException('invalid_token');
+    }
+    return {
+      username: data.user.username,
+      email: data.user.email,
+      given_name: data.user.firstName,
+      family_name: data.user.lastName,
     };
   }
 }
