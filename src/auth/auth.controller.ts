@@ -4,7 +4,6 @@ import {
   Get,
   NotFoundException,
   Post,
-  Render,
   Res,
   Session,
 } from '@nestjs/common';
@@ -17,12 +16,11 @@ export class AuthController {
   constructor(private readonly userService: UserService) {}
 
   @Get('login')
-  @Render('auth/login')
   loginPage(@Session() session: Record<string, any>, @Res() res: Response) {
     if (session.user) {
       return res.status(302).redirect('/auth/info');
     }
-    return { sample: this.userService.getRandomUser() };
+    return res.render('auth/login', {});
   }
 
   @Post('login')
