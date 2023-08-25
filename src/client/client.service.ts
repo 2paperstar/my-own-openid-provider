@@ -4,7 +4,11 @@ import { ClientRepository } from './client.repository';
 @Injectable()
 export class ClientService {
   constructor(private readonly clientRepository: ClientRepository) {
-    console.log(clientRepository.getRandomClient());
+    const client = clientRepository.getRandomClient();
+    console.log(
+      `http://localhost:3000/oauth/authorize?` +
+        `redirect_uri=${client.redirectUris[0]}&scope=openid&response_type=code&client_id=${client.id}`,
+    );
   }
 
   getClientById(id: string) {

@@ -35,10 +35,13 @@ export class OauthController {
     if (!client.redirectUris.includes(authorizeDto.redirect_uri)) {
       throw new BadRequestException('unauthorized_client');
     }
+    const params = new URLSearchParams();
+    params.set('code', '123456');
+    if (authorizeDto.state) {
+      params.set('state', authorizeDto.state);
+    }
     return res
       .status(302)
-      .redirect(
-        `${authorizeDto.redirect_uri}?code=123456&state=${authorizeDto.state}`,
-      );
+      .redirect(`${authorizeDto.redirect_uri}?${params.toString()}`);
   }
 }
