@@ -9,9 +9,9 @@ import { ClientEntity } from 'src/client/entities/client.entity';
 export class OauthService {
   constructor(@Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {}
 
-  generateCode(user: UserEntity, client: ClientEntity) {
+  generateCode(user: UserEntity, client: ClientEntity, redirectUri: string) {
     const code = this.generateOpaqueToken();
-    this.cacheManager.set(code, { user, client }, 3600e3);
+    this.cacheManager.set(code, { user, client, redirectUri }, 3600e3);
     return code;
   }
 

@@ -40,7 +40,10 @@ export class OauthController {
       throw new BadRequestException('unauthorized_client');
     }
     const params = new URLSearchParams();
-    params.set('code', this.oauthService.generateCode(user, client));
+    params.set(
+      'code',
+      this.oauthService.generateCode(user, client, authorizeDto.redirect_uri),
+    );
     if (authorizeDto.state) {
       params.set('state', authorizeDto.state);
     }
