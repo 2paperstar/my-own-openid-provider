@@ -4,6 +4,7 @@ import {
   Get,
   NotFoundException,
   Post,
+  Query,
   Res,
   Session,
 } from '@nestjs/common';
@@ -28,6 +29,7 @@ export class AuthController {
     @Session() session: Record<string, any>,
     @Body() loginDto: LoginDto,
     @Res() res: Response,
+    @Query('redirect') redirect?: string,
   ) {
     const user = this.userService.getUserByUsernameAndPassword(
       loginDto.username,
@@ -35,7 +37,7 @@ export class AuthController {
     );
     if (!user) throw new NotFoundException();
     session.user = user;
-    return res.status(302).redirect('/auth/info');
+    return res.status(302).redirect(redirect ?? '/auth/info');
   }
 
   @Get('info')

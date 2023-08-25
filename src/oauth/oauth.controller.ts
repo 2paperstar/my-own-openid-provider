@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Query,
+  Req,
   Res,
   Session,
 } from '@nestjs/common';
@@ -18,6 +19,7 @@ export class OauthController {
   authorize(
     @Query() authorizeDto: AuthorizeDto,
     @Session() session: Record<string, any>,
+    @Req() req: Request,
     @Res() res: Response,
   ) {
     const client = this.clientService.getClientById(authorizeDto.client_id);
@@ -26,7 +28,9 @@ export class OauthController {
     }
     const user = session.user;
     if (!user) {
-      return res.status(302).redirect('/auth/login');
+      return res
+        .status(302)
+        .redirect(`/auth/login?redirect=${encodeURIComponent(req.url)}`);
     }
     return res.json({ authorizeDto });
   }
