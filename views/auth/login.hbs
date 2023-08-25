@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+</head>
+
+<body>
+  <div>
+    sample username: {{ sample.username }}
+  </div>
+  <div>
+    sample password: {{ sample.password }}
+  </div>
+  <form action="" method="post">
+    <div>
+      <label>
+        username: 
+        <input type="text" name="username" autocomplete="username">
+      </label>
+    </div>
+    <div>
+      <label>
+        password: 
+        <input type="password" name="password" autocomplete="current-password">
+      </label>
+    </div>
+    <div>
+      <input type="submit" value="Login">
+    </div>
+  </form>
+</body>
+
+</html>
