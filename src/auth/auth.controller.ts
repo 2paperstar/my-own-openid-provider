@@ -41,12 +41,11 @@ export class AuthController {
   }
 
   @Get('info')
-  @Render('auth/info')
   info(@Session() session: Record<string, any>, @Res() res: Response) {
     const user = session.user;
     if (!user) {
       return res.status(302).redirect('/auth/login');
     }
-    return { user };
+    return res.render('auth/info', { user });
   }
 }
